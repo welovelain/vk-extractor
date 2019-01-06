@@ -1,0 +1,59 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+}
+
+plugins {
+    id 'io.franzbecker.gradle-lombok' version '1.14'
+    id 'java'
+}
+
+group = 'com.welovelain.vkextractor'
+description = """vk-extractor"""
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+}
+
+lombok {
+    version = "1.16.20"
+    sha256 = ""
+}
+
+
+
+dependencies {
+    //Binding for Log4J -->
+    compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.8.2'
+
+    //Log4j API and Core implementation required for binding
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.8.2'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.8.2'
+    
+    compile group: 'com.vk.api', name: 'sdk', version: '0.5.12'
+    compile group: 'commons-io', name: 'commons-io', version: '2.6'
+}
+//
+//jar {
+//    manifest {
+//        attributes(
+//                'Main-Class': 'com.welovelain.vkextractor.Main'
+//        )
+//    }
+//    from configurations.runtime.collect { zipTree(it) }
+//}
+
+compileJava {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+}
+
+compileTestJava {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+}
+
