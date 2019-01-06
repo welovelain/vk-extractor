@@ -3,8 +3,7 @@ package com.welovelain.vkextractor;
 import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.client.actors.UserActor;
 import com.vk.api.sdk.httpclient.HttpTransportClient;
-import com.welovelain.vkextractor.authorize.CodeReceiver;
-import com.welovelain.vkextractor.authorize.UserActorBuilder;
+import com.welovelain.vkextractor.authorize.AuthorizationService;
 import com.welovelain.vkextractor.config.ExtractorProperties;
 import com.welovelain.vkextractor.menu.Actions;
 import com.welovelain.vkextractor.menu.VkMenu;
@@ -23,10 +22,7 @@ public class Main {
         log.info("Loaded vk properties: " + extractorProperties);
 
         VkApiClient vk = new VkApiClient(HttpTransportClient.getInstance());
-        String code = new CodeReceiver(extractorProperties)
-                .getCode();
-
-        UserActor userActor = new UserActorBuilder(extractorProperties, vk, code).getUserActor();
+        UserActor userActor = new AuthorizationService(extractorProperties, vk).getUserActor();
 
         UserRetriever userRetriever = new UserRetriever(vk, userActor);
         MessagesExtractorService messagesExtractorService = new MessagesExtractorService(vk, userActor, userRetriever, new FileDialogPrinter(extractorProperties));

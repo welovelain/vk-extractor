@@ -5,12 +5,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
+import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Scanner;
 
 @RequiredArgsConstructor
 @Slf4j
-public class CodeReceiver {
+class CodeReceiver {
 
     private final ExtractorProperties extractorProperties;
 
@@ -32,8 +34,7 @@ public class CodeReceiver {
         SCOPE = String.valueOf(totalScope);
     }
 
-
-    public String getCode() throws Exception {
+    String getCode() throws URISyntaxException, IOException {
         String url = new StringBuilder("https://oauth.vk.com/authorize?")
                 .append("client_id=").append(extractorProperties.getClientId())
                 .append("&display=").append(DISPLAY)

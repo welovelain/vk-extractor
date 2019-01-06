@@ -8,16 +8,21 @@ import com.vk.api.sdk.objects.UserAuthResponse;
 import com.welovelain.vkextractor.config.ExtractorProperties;
 import lombok.RequiredArgsConstructor;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+
 @RequiredArgsConstructor
-public class UserActorBuilder {
+public class AuthorizationService {
 
     private final ExtractorProperties extractorProperties;
     private final VkApiClient vk;
-    private final String code;
 
     private static final String REDIRECT_URI = "https://oauth.vk.com/blank.html";
 
-    public UserActor getUserActor() throws ApiException, ClientException {
+    public UserActor getUserActor() throws ApiException, ClientException, URISyntaxException, IOException {
+        String code = new CodeReceiver(extractorProperties)
+                .getCode();
+
         UserAuthResponse authResponse = vk.oauth()
                 .userAuthorizationCodeFlow(extractorProperties.getClientId(), extractorProperties.getClientSecret(), REDIRECT_URI, code)
                 .execute();
